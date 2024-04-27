@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            background-color: orange;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .sidebar {
+            float: left;
+            width: 20%;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .product-item {
+            width: 20%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .product-image {
+            position: relative;
+            cursor: pointer;
+        }
+        .product-image img {
+            width: 100%;
+            height: auto;
+        }
+        .product-name {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            width: 100%;
+            text-align: center;
+        }
+        .product-price {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent orange background */
+            padding: 5px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Kategori</h2>
+        <ul>
+            {% for category in categories %}
+                <li><a href="{{ url_for('category', category=category[0]) }}">{{ category[0] }} ({{ category_counts.get(category[0], 0) }})</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <p>
+                {% if search_term %}
+                    <strong>{{ search_term }} ile ilgili</strong>
+                {% else %}
+                    <strong>Tüm ürünler ile ilgili</strong>
+                {% endif %}
+                <strong>{{ num_results }}</strong> ürün bulduk.
+            </p>
+            <label for="yarim_kapimda_checkbox">Yarın Kapımda</label>
+            <input type="checkbox" id="yarim_kapimda_checkbox">
+        </div>
+
+        <div class="main-content">
+            <!-- Flexbox content goes here -->
+            {% for product in products %}
+            <div class="product-item" data-yarinkapimda="{{ product[4] }}"> <!-- Assuming Yarın Kapımda is the eighth column -->
+                <div class="product-image" onclick="window.location.href='{{ url_for('product', product_id=product[0]) }}'"> <!-- Link to product details page -->
+                    <img src="data:image/jpeg;base64,{{ product[6]|b64encode }}" alt="Product Image">
+                    <div class="product-name">{{ product[1] }}</div> <!-- Assuming Product Name is the second column -->
+                    <div class="product-price">{{ product[2] }} TL</div> <!-- Assuming Price is the third column -->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+
+        const checkbox = document.getElementById('yarim_kapimda_checkbox');
+
+        checkbox.addEventListener('change', function() {
+
+            const productItems = document.querySelectorAll('.product-item');
+
+
+            productItems.forEach(item => {
+
+                if (checkbox.checked) {
+                    if (item.dataset.yarinkapimda === '1') {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                } else {
+                    item.style.display = 'flex';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

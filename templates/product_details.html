@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product[1] }} Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: orange;
+        }
+        .details {
+            text-align: left;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .details h1 {
+            margin-top: 0;
+        }
+        .details img {
+            width: 200px;
+            height: auto;
+            float: left;
+            margin-right: 20px;
+        }
+        .details p {
+            margin-top: 0;
+        }
+        .button {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="details">
+            <h1>{{ product[1] }}</h1>
+            <img src="data:image/jpeg;base64,{{ product[6]|b64encode }}" alt="{{ product[1] }} Image">
+            <div>
+                <p><strong>Fiyat:</strong> {{ product[2] }} TL</p>
+                <p><strong>Kategori:</strong> {{ product[3] }}</p>
+                <p><strong>Yarın Kapımda Seçeneği:</strong> {% if product[4] == 1 %}Var{% else %}Yok{% endif %}</p>
+                <button class="button" onclick="return false;">Satın Al</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

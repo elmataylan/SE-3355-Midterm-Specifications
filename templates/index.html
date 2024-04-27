@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkiye'nin en büyük online alışveriş sitesi Hepsiburada.com</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .header {
+            background-color: #FFF; 
+            color: #003a70; 
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .hepsiburada {
+            color: #FFA500; 
+            margin-right: 5px; 
+            text-transform: lowercase; 
+        }
+        .premium {
+            color: #FFA500; 
+            margin-right: 5px; 
+        }
+        .kesfet {
+            color: #000; 
+            margin: 0;
+        }
+        .search-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            margin-top: 20px; 
+        }
+        .search-box {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #FFA500; 
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        @media (max-width: 600px) {
+            .search-container {
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .color-band {
+            height: 20px;
+            background: linear-gradient(to right, orange 40%, cyan 40%, cyan 55%, purple 55%, purple 70%, green 70%, green 85%, #6F2DA8 85%);
+        }
+        .kategori {
+            background-color: #f5f5f5;
+            padding: 10px;
+            text-align: center;
+            margin-top: 0px;
+        }
+        .kategori a {
+            text-decoration: none;
+            color: #000;
+            margin: 0 10px;
+        }
+        .kategori a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+        .box {
+            position: relative;
+            width: 100px;
+            height: 60px;
+            background-color: orange;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .box:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 10px 10px;
+            border-style: solid;
+            border-color: orange transparent;
+        }
+        .image-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            margin-top: 110px;
+        }
+        .box span {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1 class="hepsiburada">hepsiburada</h1>
+            <p class="premium">Premium'u</p>
+            <p class="kesfet">Keşfet</p>
+        </div>
+    </div>
+    <div class="search-container">
+        <form action="/search" method="GET">
+            <input type="text" class="search-box" name="query" placeholder="Ürün, kategori veya marka ara">
+            <button type="submit" class="search-button">ARA</button>
+        </form>
+    </div>
+    <div class="color-band"></div>
+    <div class="kategori">
+        <a href="/category/Elektronik">Elektronik</a> |
+        <a href="/category/Moda">Moda</a> |
+        <a href="/category/Market">Market</a> |
+        <a href="/category/Ofis">Ofis</a> |
+        <a href="/category/Oyuncak">Oyuncak</a> |
+        <a href="/category/Spor">Spor</a>
+    </div>
+    <div class="container">
+        <div class="box" id="Elektronik"><span>Elektronik</span></div>
+        <div class="box" id="AnnelerGunu"><span>Anneler Günü</span></div>
+        <div class="box" id="Market"><span>Market</span></div>
+        <div class="box" id="EvYasam"><span>Ev & Yaşam</span></div>
+        <div class="box" id="ModaGuzellik"><span>Moda & Güzellik</span></div>
+        <div class="box" id="AnneCocuk"><span>Anne & Çocuk</span></div>
+        <div class="box" id="Ayricaliklar"><span>Ayrıcalıklar</span></div>
+    </div>
+    <div class="image-container" id="imageContainer">
+        <img src="" alt="Image" id="displayedImage">
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            const firstBox = document.getElementById('Elektronik');
+            firstBox.click();
+        });
+
+        const boxes = document.querySelectorAll('.box');
+        const imageContainer = document.getElementById('imageContainer');
+        const displayedImage = document.getElementById('displayedImage');
+
+        boxes.forEach((box) => {
+            box.addEventListener('click', () => {
+                const category = box.id;
+                displayedImage.src = `static/${category}.jfif`;
+                imageContainer.style.display = 'block';
+            });
+        });
+
+        imageContainer.addEventListener('click', () => {
+            imageContainer.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
